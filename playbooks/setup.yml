@@ -1,0 +1,24 @@
+---
+- name: Configure web servers
+  hosts: web_servers
+  become: yes
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Deploy web application
+      copy:
+        src: /path/to/local/webapp
+        dest: /var/www/html/webapp
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+```
